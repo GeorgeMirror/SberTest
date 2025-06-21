@@ -1,5 +1,6 @@
 package com.yourcompany.bank.core.card;
 
+import com.yourcompany.bank.card.abs.Card;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 

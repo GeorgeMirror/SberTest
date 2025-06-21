@@ -1,7 +1,10 @@
 package com.yourcompany.bank.core;
 
-import com.yourcompany.bank.core.card.*;
-import com.yourcompany.bank.core.deposit.Deposit;
+import com.yourcompany.bank.card.abs.Card;
+import com.yourcompany.bank.card.impl.CreditCard;
+import com.yourcompany.bank.card.impl.CurrencyDebitCard;
+import com.yourcompany.bank.card.impl.DebitCard;
+import com.yourcompany.bank.deposit.impl.Deposit;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 

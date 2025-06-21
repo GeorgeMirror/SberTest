@@ -1,4 +1,6 @@
-package com.yourcompany.bank.core.card;
+package com.yourcompany.bank.card.impl;
+
+import com.yourcompany.bank.card.abs.Card;
 
 import java.math.BigDecimal;
 import java.util.Currency;

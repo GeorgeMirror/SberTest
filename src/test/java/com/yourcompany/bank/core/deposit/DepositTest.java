@@ -1,5 +1,6 @@
 package com.yourcompany.bank.core.deposit;
 
+import com.yourcompany.bank.deposit.impl.Deposit;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 

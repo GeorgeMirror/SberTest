@@ -1,4 +1,4 @@
-package com.yourcompany.bank.core.card;
+package com.yourcompany.bank.card.abs;
 
 import com.yourcompany.bank.core.AbstractBankProduct;
 import com.yourcompany.bank.interfaces.Replenishable;
