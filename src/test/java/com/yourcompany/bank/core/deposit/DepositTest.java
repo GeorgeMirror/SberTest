@@ -3,6 +3,8 @@ package com.yourcompany.bank.core.deposit;
 import com.yourcompany.bank.deposit.impl.Deposit;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -14,13 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Тесты вклада")
 class DepositTest {
 
-    @Test
-    @DisplayName("Пополнение вклада")
+    @ParameterizedTest(name = "Начальный баланс {0}, пополнение {1}, ожидаемый итог {2}")
+    @CsvSource({
+            "1000, 500, 1500",
+            "500, 250, 750",
+            "0, 100, 100"
+    })
     @Severity(SeverityLevel.CRITICAL)
-    void testDepositTopUp() {
-        var deposit = new Deposit("Standard", Currency.getInstance("EUR"), BigDecimal.valueOf(1000));
-        deposit.deposit(BigDecimal.valueOf(500));
-        assertEquals(BigDecimal.valueOf(1500), deposit.getBalance());
+    void testDepositTopUp(String initial, String add, String expected) {
+        var deposit = new Deposit("Standard", Currency.getInstance("EUR"), new BigDecimal(initial));
+        deposit.deposit(new BigDecimal(add));
+        assertEquals(new BigDecimal(expected), deposit.getBalance());
     }
 
     @Test

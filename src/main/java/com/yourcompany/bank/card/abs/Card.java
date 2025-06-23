@@ -14,11 +14,19 @@ public abstract class Card extends AbstractBankProduct implements Replenishable,
 
     @Override
     public void deposit(BigDecimal amount) {
+        validateAmount(amount);
         balance = balance.add(amount);
     }
 
     @Override
     public void withdraw(BigDecimal amount) {
+        validateAmount(amount);
         balance = balance.subtract(amount);
+    }
+
+    protected void validateAmount(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be positive and non-null");
+        }
     }
 }
