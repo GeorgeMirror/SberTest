@@ -1,12 +1,12 @@
 package com.yourcompany.bank.core.card;
 
 import com.yourcompany.bank.card.impl.DebitCard;
+import com.yourcompany.bank.common.ErrorCode;
 import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -46,7 +46,7 @@ class DebitCardTest {
         var card = new DebitCard("Basic Debit", USD, BigDecimal.TEN);
         BigDecimal amount = (amountStr == null || amountStr.isEmpty()) ? null : new BigDecimal(amountStr);
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> card.deposit(amount));
-        assertTrue(ex.getMessage().contains("Amount must be positive"));
+        assertEquals(ErrorCode.AMOUNT_MUST_BE_POSITIVE.message(), ex.getMessage());
     }
 
     @ParameterizedTest(name = "Списание недопустимым значением: {0}")
@@ -57,7 +57,7 @@ class DebitCardTest {
         var card = new DebitCard("Basic Debit", USD, BigDecimal.TEN);
         BigDecimal amount = (amountStr == null || amountStr.isEmpty()) ? null : new BigDecimal(amountStr);
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> card.withdraw(amount));
-        assertTrue(ex.getMessage().contains("Amount must be positive"));
+        assertEquals(ErrorCode.AMOUNT_MUST_BE_POSITIVE.message(), ex.getMessage());
     }
 
     @Test
@@ -66,6 +66,6 @@ class DebitCardTest {
     void testWithdrawMoreThanBalanceThrows() {
         var card = new DebitCard("Basic Debit", USD, BigDecimal.valueOf(100));
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> card.withdraw(BigDecimal.valueOf(150)));
-        assertTrue(ex.getMessage().contains("Insufficient balance"));
+        assertEquals(ErrorCode.INSUFFICIENT_BALANCE.message(), ex.getMessage());
     }
 }

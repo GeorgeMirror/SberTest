@@ -1,5 +1,6 @@
 package com.yourcompany.bank.card.abs;
 
+import com.yourcompany.bank.common.ErrorCode;
 import com.yourcompany.bank.core.AbstractBankProduct;
 import com.yourcompany.bank.interfaces.Replenishable;
 import com.yourcompany.bank.interfaces.Withdrawable;
@@ -26,7 +27,7 @@ public abstract class Card extends AbstractBankProduct implements Replenishable,
 
     protected void validateAmount(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Amount must be positive and non-null");
+            throw new IllegalArgumentException(ErrorCode.AMOUNT_MUST_BE_POSITIVE.message());
         }
     }
 }
