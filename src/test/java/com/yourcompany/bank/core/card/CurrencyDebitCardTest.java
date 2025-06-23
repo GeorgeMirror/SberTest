@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Тесты валютной дебетовой карты")
 class CurrencyDebitCardTest {
 
+    private static final Currency EUR = Currency.getInstance("EUR");
+
     @ParameterizedTest(name = "Баланс: {0}, +{1}, -{2} → Ожидаем: {3}")
     @CsvSource({
             "300, 100, 50, 350",
@@ -24,7 +26,7 @@ class CurrencyDebitCardTest {
     })
     @Severity(SeverityLevel.NORMAL)
     void testCurrencyCardBehavior(String initial, String deposit, String withdraw, String expected) {
-        var card = new CurrencyDebitCard("EUR Debit", Currency.getInstance("EUR"), new BigDecimal(initial));
+        var card = new CurrencyDebitCard("EUR Debit", EUR, new BigDecimal(initial));
         card.deposit(new BigDecimal(deposit));
         card.withdraw(new BigDecimal(withdraw));
         assertEquals(new BigDecimal(expected), card.getBalance());

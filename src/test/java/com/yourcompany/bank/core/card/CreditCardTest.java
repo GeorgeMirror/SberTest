@@ -16,13 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Параметризованные тесты кредитной карты")
 class CreditCardTest {
 
+    private static final Currency USD = Currency.getInstance("USD");
+
     @ParameterizedTest(name = "Начальный баланс={0}, списать={1}, пополнить={2}, ожидаемый баланс={3}, ожидаемый долг={4}")
     @CsvSource({
             "0, 500, 600, 100, 0",     // погасили долг и получаем положительный баланс
             "0, 500, 400, -100, 100",  // погасили часть долга, долг остался 100
             "1000, 500, 200, 700, 0",  // списали меньше, пополнили, итог положительный баланс
             "0, 0, 500, 500, 0",       // просто пополнение без долга
-            "100, 200, 100, 0, 0"    // баланс стал отрицательным -100, долг 100
+            "100, 200, 100, 0, 0"      // баланс стал отрицательным -100, долг 100
     })
     @Severity(SeverityLevel.NORMAL)
     void testCreditCardTransactions(
@@ -35,7 +37,7 @@ class CreditCardTest {
         BigDecimal expectedBalance = new BigDecimal(expectedBalanceStr);
         BigDecimal expectedDebt = new BigDecimal(expectedDebtStr);
 
-        var card = new CreditCard("Credit", Currency.getInstance("USD"), initialBalance, BigDecimal.valueOf(20));
+        var card = new CreditCard("Credit", USD, initialBalance, BigDecimal.valueOf(20));  // используем USD
 
         if (withdrawAmount.compareTo(BigDecimal.ZERO) > 0) {
             card.withdraw(withdrawAmount);

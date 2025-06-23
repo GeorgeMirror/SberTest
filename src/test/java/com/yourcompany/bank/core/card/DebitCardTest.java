@@ -18,11 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Тесты дебетовой карты")
 class DebitCardTest {
 
+    private static final Currency USD = Currency.getInstance("USD");
+
     @Test
     @DisplayName("Пополнение дебетовой карты")
     @Severity(SeverityLevel.CRITICAL)
     void testDebitCardDeposit() {
-        var card = new DebitCard("Basic Debit", Currency.getInstance("USD"), BigDecimal.ZERO);
+        var card = new DebitCard("Basic Debit", USD, BigDecimal.ZERO);
         card.deposit(BigDecimal.valueOf(100));
         assertEquals(BigDecimal.valueOf(100), card.getBalance());
     }
@@ -31,7 +33,7 @@ class DebitCardTest {
     @DisplayName("Списание с дебетовой карты")
     @Severity(SeverityLevel.CRITICAL)
     void testDebitCardWithdraw() {
-        var card = new DebitCard("Basic Debit", Currency.getInstance("USD"), BigDecimal.valueOf(200));
+        var card = new DebitCard("Basic Debit", USD, BigDecimal.valueOf(200));
         card.withdraw(BigDecimal.valueOf(50));
         assertEquals(BigDecimal.valueOf(150), card.getBalance());
     }
@@ -41,7 +43,7 @@ class DebitCardTest {
     @ValueSource(strings = {"0", "-1", "-0.01"})
     @Severity(SeverityLevel.NORMAL)
     void testInvalidDepositThrows(String amountStr) {
-        var card = new DebitCard("Basic Debit", Currency.getInstance("USD"), BigDecimal.TEN);
+        var card = new DebitCard("Basic Debit", USD, BigDecimal.TEN);
         BigDecimal amount = (amountStr == null || amountStr.isEmpty()) ? null : new BigDecimal(amountStr);
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> card.deposit(amount));
         assertTrue(ex.getMessage().contains("Amount must be positive"));
@@ -52,7 +54,7 @@ class DebitCardTest {
     @ValueSource(strings = {"0", "-1", "-0.01"})
     @Severity(SeverityLevel.NORMAL)
     void testInvalidWithdrawThrows(String amountStr) {
-        var card = new DebitCard("Basic Debit", Currency.getInstance("USD"), BigDecimal.TEN);
+        var card = new DebitCard("Basic Debit", USD, BigDecimal.TEN);
         BigDecimal amount = (amountStr == null || amountStr.isEmpty()) ? null : new BigDecimal(amountStr);
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> card.withdraw(amount));
         assertTrue(ex.getMessage().contains("Amount must be positive"));
@@ -62,7 +64,7 @@ class DebitCardTest {
     @DisplayName("Списание больше баланса вызывает исключение")
     @Severity(SeverityLevel.CRITICAL)
     void testWithdrawMoreThanBalanceThrows() {
-        var card = new DebitCard("Basic Debit", Currency.getInstance("USD"), BigDecimal.valueOf(100));
+        var card = new DebitCard("Basic Debit", USD, BigDecimal.valueOf(100));
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> card.withdraw(BigDecimal.valueOf(150)));
         assertTrue(ex.getMessage().contains("Insufficient balance"));
     }
