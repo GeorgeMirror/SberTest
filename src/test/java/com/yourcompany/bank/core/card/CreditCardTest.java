@@ -37,7 +37,7 @@ class CreditCardTest {
         BigDecimal expectedBalance = new BigDecimal(expectedBalanceStr);
         BigDecimal expectedDebt = new BigDecimal(expectedDebtStr);
 
-        var card = new CreditCard("Credit", USD, initialBalance, BigDecimal.valueOf(20));  // используем USD
+        var card = new CreditCard("Credit", USD, initialBalance, BigDecimal.valueOf(20));
 
         if (withdrawAmount.compareTo(BigDecimal.ZERO) > 0) {
             card.withdraw(withdrawAmount);
